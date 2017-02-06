@@ -52,12 +52,15 @@ def main():
         print('No data found.')
     else:
         for row in values:
-            if len(row[6])>0:
-                print row[6]
-            if len(row[11])>0:
-                print row[11]
-            if len(row[16])>0:
-                print row[16]
+            try:
+                if len(row[6])>0:
+                    print row[6]
+                if len(row[11])>0:
+                    print row[11]
+                if len(row[16])>0:
+                    print row[16]
+            except IndexError:
+                    pass
 
 
 if __name__ == '__main__':
