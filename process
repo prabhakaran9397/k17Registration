@@ -9,9 +9,10 @@ if __name__ == '__main__':
 	with open('output.csv', 'rb') as regStatusFile:
 		regStatus = csv.reader(regStatusFile, delimiter=' ')
 		for row in regStatus:
-			status 	= row[0]
-			email	= row[1]
+			status = row[0]
+			email = row[1]
 			os.system("sed -i '1iTo: "+ email +"' "+ status +".txt")
 			print("sending mail to " + email + " (" + status + ")")
  			os.system("ssmtp " + email + " < "+ status +".txt")
+ 			os.system('echo ' + status + ' ' +email + ' ' + '`date "+%T-%d/%b/%y"` >> mail.log')
  			os.system("sed -i '1d' " + status + ".txt	")
