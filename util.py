@@ -41,17 +41,22 @@ def main():
     discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?version=v4')
     service = discovery.build('sheets', 'v4', http=http, discoveryServiceUrl=discoveryUrl)
 
-    spreadsheetId = '1lKtRGeOnF6vfnsEH_XtSV0THTQc7grf_VYxuZcsSkD0'
-    rangeName = 'Form Responses 1!D2:D55'
+    spreadsheetId = '15s8NRs1cCFFDx0Ql-hmwz54Hd7QIC_reLNn33uCdTrI'
+    rangeName = 'Form Responses 1!A:R'
     result = service.spreadsheets().values().get(spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
+    del values[0]
 
     if not values:
         print('No data found.')
     else:
-        print('Name, Major:')
         for row in values:
-            print row[0]
+            if len(row[6])>0:
+                print row[6]
+            if len(row[11])>0:
+                print row[11]
+            if len(row[16])>0:
+                print row[16]
 
 
 if __name__ == '__main__':
