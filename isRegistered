@@ -1,10 +1,12 @@
 #!/bin/bash
 
 if [ -n "$1" ]; then
-	curl -isH "Content-Type: application/json" -d '{"emailId" : "'$1'"}' http://login.kurukshetra.org.in/isUserRegistered | head -1 | egrep -o "[0-9]{3}"
+	state=`curl -isH "Content-Type: application/json" -d '{"emailId" : "'$1'"}' http://login.kurukshetra.org.in/isUserRegistered | head -1 | egrep -o "[0-9]{3}"`
+	echo $state $1
 else
 	while read -r email; do
-		curl -isH "Content-Type: application/json" -d '{"emailId" : "'$email'"}' http://login.kurukshetra.org.in/isUserRegistered | head -1 | egrep -o "[0-9]{3}"
+		state=`curl -isH "Content-Type: application/json" -d '{"emailId" : "'$email'"}' http://login.kurukshetra.org.in/isUserRegistered | head -1 | egrep -o "[0-9]{3}"`
+		echo $state $email
 	done
 fi
 
