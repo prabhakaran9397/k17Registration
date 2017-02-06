@@ -6,53 +6,14 @@ if __name__ == '__main__':
 	os.system('rm -rf out')
 	os.system('./formMails | ./isRegistered >> out')
 	os.system('cat out | sort | uniq > output.csv')
+	os.system('rm -rf out')
 	'''
 	with open('output.csv', 'rb') as regStatusFile:
 		regStatus = csv.reader(regStatusFile, delimiter=' ')
 		for row in regStatus:
 			status 	= row[0]
 			email	= row[1]
-
-			if status == '200':
-				os.system('rm -rf 200.txt')
-				file 	= open("200.txt", "w")
-				file.write('To: ' + email + '\n')
-				file.write('From: hackathon@kurukshetra.org.in'  + '\n')
-				file.write("Subject: Hackathon Kurukshetra'17"  + '\n')
-				file.write('''
-Hello,
-
-Greetings from the Kurukshetra'17 Hackathon Team!
-
-You have successfully registered for the event 'Hackathon'  and we are extremely delighted to have you on board.
-
-Cheers
-K! Hackathon Team\n\n''')
-				file.close()
-				command = 'ssmtp ' + email + ' < 200.txt'
-				print("sending mail to " + email + " (" + status + ")")
- 				os.system(command)
-
- 			elif status == '400':
- 				os.system('rm -rf 400.txt')
-				file 	= open("400.txt", "w")
-				file.write('To: ' + email + '\n')
-				file.write('From: hackathon@kurukshetra.org.in'  + '\n')
-				file.write("Subject: Hackathon Kurukshetra'17"  + '\n')
-				file.write('''
-Hello,
-
-Greetings from the Kurukshetra'17 Hackathon Team!
-
-Kindly register yourself in the Kurukshetra website (http://kurukshetra.org.in/) in order to complete your registration for the event 'Hackathon' successfully.
-
-We look forward to having you on board!
-
-Cheers
-K! Hackathon Team\n\n''')
-				file.close()
-				command = 'ssmtp ' + email + ' < 400.txt'
-				print("sending mail to " + email + " (" + status + ")")
- 				os.system(command)
-
- 	os.system('rm -rf out 200.txt 400.txt')
+			os.system("sed -i '1iTo: "+ email +"' "+ status +".txt")
+			print("sending mail to " + email + " (" + status + ")")
+ 			os.system("ssmtp " + email + " < "+ status +".txt")
+ 			os.system("sed -i '1d' " + status + ".txt	")
