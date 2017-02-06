@@ -1,8 +1,7 @@
 Checking email IDs registered in K!
 
-$```./formMails | ./isRegistered```
+$```./process```
 ```
-200 elonmusk@hi2.in
-400 test@g.com
-400 test@test.oth
+sending mail to elonmusk@hi2.in (200)
+sending mail to random999@hi2.in (400)
 ```
