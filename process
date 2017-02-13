@@ -2,10 +2,7 @@
 import csv, os
 
 if __name__ == '__main__':
-	os.system('rm -rf out')
-	os.system('./formMails | ./isRegistered >> out')
-	os.system('cat out | sort | uniq > output.csv')
-	os.system('rm -rf out')
+	os.system('''./formMails | ./isRegistered | sort | uniq > output.csv; for i in `cat mail.log | egrep "^[24]00" | sort | awk '{print $2}' | uniq`; do grep -v $i output.csv > t; mv t output.csv; done; cat output.csv;''')
 	with open('output.csv', 'rb') as regStatusFile:
 		regStatus = csv.reader(regStatusFile, delimiter=' ')
 		for row in regStatus:
@@ -13,6 +10,6 @@ if __name__ == '__main__':
 			email = row[1]
 			os.system("sed -i '1iTo: "+ email +"' "+ status +".txt")
 			print("sending mail to " + email + " (" + status + ")")
- 			os.system("ssmtp " + email + " < "+ status +".txt")
- 			os.system('echo ' + status + ' ' +email + ' ' + '`date "+%T-%d/%b/%y"` >> mail.log')
- 			os.system("sed -i '1d' " + status + ".txt	")
+	 		os.system("ssmtp " + email + " < "+ status +".txt")
+	 		os.system('echo ' + status + ' ' +email + ' ' + '`date "+%T-%d/%b/%y"` >> mail.log')
+	 		os.system("sed -i '1d' " + status + ".txt	")
